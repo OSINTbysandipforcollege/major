@@ -107,6 +107,19 @@ router.post('/register', async (req, res) => {
 
     writeData('users.json', [...users, newUser]);
 
+    // Create welcome notification for new user
+    const notifications = readData('notifications.json');
+    const welcomeNotification = {
+      id: randomUUID(),
+      userId: newUser.id,
+      title: 'Welcome to ResQConnect!',
+      message: 'Thank you for registering. Stay safe and informed about disaster alerts and events.',
+      type: 'info',
+      read: false,
+      createdAt: new Date().toISOString(),
+    };
+    writeData('notifications.json', [...notifications, welcomeNotification]);
+
     const token = generateToken(newUser);
 
     res.status(201).json({

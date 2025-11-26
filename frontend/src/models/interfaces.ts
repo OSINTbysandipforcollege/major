@@ -22,6 +22,7 @@ export interface Alert {
   date: string;
   affectedAreas: string[];
   details?: string;
+  region?: string;
 }
 
 export interface Contact {

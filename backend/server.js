@@ -9,6 +9,8 @@ import authRoutes from './routes/auth.js';
 import eventRoutes from './routes/events.js';
 import registrationRoutes from './routes/registrations.js';
 import userRoutes from './routes/users.js';
+import alertRoutes from './routes/alerts.js';
+import notificationRoutes from './routes/notifications.js';
 
 dotenv.config();
 
@@ -40,6 +42,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/registrations', registrationRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/alerts', alertRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

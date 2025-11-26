@@ -98,6 +98,25 @@ router.post('/', authenticate, requireAdmin, (req, res) => {
 
     writeData('events.json', [...events, newEvent]);
 
+    // Create notification for all users about new event
+    const notifications = readData('notifications.json');
+    const users = readData('users.json');
+    
+    // Create notification for each user (except admin who created it)
+    const userNotifications = users
+      .filter(u => u.role === 'user')
+      .map(user => ({
+        id: randomUUID(),
+        userId: user.id,
+        title: 'New Event Available',
+        message: `New event: ${newEvent.title} on ${new Date(newEvent.date).toLocaleDateString()} at ${newEvent.location}`,
+        type: 'info',
+        read: false,
+        createdAt: new Date().toISOString(),
+      }));
+
+    writeData('notifications.json', [...notifications, ...userNotifications]);
+
     res.status(201).json({ event: newEvent });
   } catch (error) {
     console.error('Create event error:', error);
